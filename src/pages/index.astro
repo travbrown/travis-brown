@@ -1,0 +1,52 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import { fetchShowcaseProjects } from "../lib/github";
+import { SITE } from "../lib/config";
+
+const projects = await fetchShowcaseProjects();
+const featured = projects.filter((p) => p.featured).slice(0, 3);
+---
+
+<BaseLayout>
+  <Hero />
+
+  {featured.length > 0 && (
+    <section class="section">
+      <p class="section-label">Selected Work</p>
+      <div class="projects-grid">
+        {featured.map((project, i) => (
+          <ProjectCard project={project} index={i} />
+        ))}
+      </div>
+      <div class="view-all">
+        <a href="/projects">All Projects &rarr;</a>
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .view-all {
+    margin-top: 40px;
+    text-align: center;
+  }
+
+  .view-all a {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    border: none;
+    transition: color var(--transition);
+  }
+
+  .view-all a:hover {
+    color: var(--text);
+  }
+</style>

@@ -1,0 +1,69 @@
+---
+import { SITE } from "../lib/config";
+---
+
+<footer>
+  <div class="footer-inner">
+    <p class="footer-copy">&copy; {new Date().getFullYear()} {SITE.name}</p>
+    <div class="footer-links">
+      {SITE.socials.github && (
+        <a href={SITE.socials.github} target="_blank" rel="noopener noreferrer">
+          GitHub
+        </a>
+      )}
+      {SITE.socials.linkedin && (
+        <a href={SITE.socials.linkedin} target="_blank" rel="noopener noreferrer">
+          LinkedIn
+        </a>
+      )}
+      {SITE.socials.email && (
+        <a href={`mailto:${SITE.socials.email}`}>Email</a>
+      )}
+    </div>
+  </div>
+</footer>
+
+<style>
+  footer {
+    border-top: 1px solid var(--border);
+    margin-top: auto;
+  }
+
+  .footer-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-copy {
+    font-size: 0.8rem;
+    color: var(--text-faint);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 20px;
+  }
+
+  .footer-links a {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    border: none;
+    transition: color var(--transition);
+  }
+
+  .footer-links a:hover {
+    color: var(--text);
+  }
+
+  @media (max-width: 640px) {
+    .footer-inner {
+      flex-direction: column;
+      gap: 12px;
+      padding: 24px 16px;
+    }
+  }
+</style>

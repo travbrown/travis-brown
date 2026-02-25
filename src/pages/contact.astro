@@ -1,0 +1,111 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ContactForm from "../components/ContactForm.astro";
+import { SITE } from "../lib/config";
+---
+
+<BaseLayout
+  title="Contact"
+  description={`Get in touch with ${SITE.name}. ${SITE.tagline}`}
+>
+  <section class="section">
+    <div class="contact-layout">
+      <div class="contact-info animate-on-scroll">
+        <p class="section-label">Contact</p>
+        <h2>Let's Talk</h2>
+        <p>
+          Have a project in mind, want to collaborate, or just want to say hello?
+          Drop me a message.
+        </p>
+
+        <div class="contact-links">
+          {SITE.socials.github && (
+            <a
+              href={SITE.socials.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="contact-link"
+            >
+              <span class="link-label">GitHub</span>
+              <span class="link-value">{SITE.socials.github.replace("https://github.com/", "@")}</span>
+            </a>
+          )}
+          {SITE.socials.linkedin && (
+            <a
+              href={SITE.socials.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="contact-link"
+            >
+              <span class="link-label">LinkedIn</span>
+              <span class="link-value">Profile &rarr;</span>
+            </a>
+          )}
+          {SITE.socials.email && (
+            <a href={`mailto:${SITE.socials.email}`} class="contact-link">
+              <span class="link-label">Email</span>
+              <span class="link-value">{SITE.socials.email}</span>
+            </a>
+          )}
+        </div>
+      </div>
+
+      <div class="contact-form-wrapper animate-on-scroll" style="transition-delay: 0.15s">
+        <ContactForm />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  .contact-info h2 {
+    margin-bottom: 12px;
+  }
+
+  .contact-links {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .contact-link {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 12px 0;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    transition: border-color var(--transition);
+  }
+
+  .contact-link:hover {
+    border-color: var(--text);
+  }
+
+  .link-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-faint);
+  }
+
+  .link-value {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 768px) {
+    .contact-layout {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+</style>
