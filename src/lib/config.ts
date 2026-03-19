@@ -6,7 +6,6 @@ export const SITE = {
   url: "https://travisbrown.dev",
   github: "travbrown",
   ogImage: "/og-image.png",
-  formspreeId: "YOUR_FORMSPREE_ID",
   socials: {
     github: "https://github.com/travbrown",
     linkedin: "",

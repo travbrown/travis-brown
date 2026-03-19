@@ -1,12 +1,4 @@
----
-import { SITE } from "../lib/config";
----
-
-<form
-  action={`https://formspree.io/f/${SITE.formspreeId}`}
-  method="POST"
-  class="contact-form"
->
+<form class="contact-form" id="contact-form">
   <div class="form-group">
     <label for="name">Name</label>
     <input type="text" id="name" name="name" required placeholder="Your name" />
@@ -32,7 +24,54 @@ import { SITE } from "../lib/config";
     ></textarea>
   </div>
   <button type="submit">Send Message</button>
+  <p class="form-status" id="form-status"></p>
 </form>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const form = document.getElementById("contact-form") as HTMLFormElement;
+    const status = document.getElementById("form-status") as HTMLParagraphElement;
+    if (!form || !status) return;
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const btn = form.querySelector("button") as HTMLButtonElement;
+      btn.disabled = true;
+      btn.textContent = "Sending...";
+      status.textContent = "";
+      status.className = "form-status";
+
+      const data = {
+        name: (form.querySelector("#name") as HTMLInputElement).value,
+        email: (form.querySelector("#email") as HTMLInputElement).value,
+        message: (form.querySelector("#message") as HTMLTextAreaElement).value,
+      };
+
+      try {
+        const res = await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+
+        if (res.ok) {
+          status.textContent = "Message sent! I'll get back to you soon.";
+          status.classList.add("success");
+          form.reset();
+        } else {
+          status.textContent = "Something went wrong. Please try again.";
+          status.classList.add("error");
+        }
+      } catch {
+        status.textContent = "Network error. Please try again.";
+        status.classList.add("error");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Send Message";
+      }
+    });
+  });
+</script>
 
 <style>
   .contact-form {
@@ -104,5 +143,24 @@ import { SITE } from "../lib/config";
 
   button:active {
     transform: translateY(0);
+  }
+
+  button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .form-status {
+    font-size: 0.85rem;
+    min-height: 1.2em;
+  }
+
+  .form-status.success {
+    color: #2a9d5c;
+  }
+
+  .form-status.error {
+    color: #d94444;
   }
 </style>

@@ -1,11 +1,11 @@
 import { defineConfig } from "astro/config";
-import vercel from "@astrojs/vercel/static";
+import vercel from "@astrojs/vercel/serverless";
 
 export default defineConfig({
   site: "https://travisbrown.dev",
   build: {
     inlineStylesheets: "auto",
   },
-  output: "static",
+  output: "hybrid",
   adapter: vercel(),
 });
